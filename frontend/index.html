@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+    <!--
+      DEV-ONLY: Add a permissive Content-Security-Policy to make debugging easier
+      when loading the Vite dev server inside Electron. This reduces CSP
+      restrictions in development so DevTools and source maps work reliably.
+      Do NOT keep this in production. Electron's main process will only
+      serve this file during development when NODE_ENV!=production.
+    -->
+    <script>
+      // Inject a permissive CSP meta only when running in development.
+      // This keeps the file unchanged for production builds.
+      try {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+          const meta = document.createElement('meta');
+          meta.httpEquiv = 'Content-Security-Policy';
+          meta.content = "default-src 'self' http: https: data: 'unsafe-inline' 'unsafe-eval' blob:;";
+          document.getElementsByTagName('head')[0].appendChild(meta);
+        }
+      } catch (e) {
+        /* silent dev-only failure */
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

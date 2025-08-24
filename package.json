@@ -1,0 +1,29 @@
+{
+  "name": "smart-campus-electron",
+  "version": "0.1.0",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently -k -n BACKEND,FRONTEND,ELECTRON -c green,cyan,magenta \"cross-env PYTHONUNBUFFERED=1\" \"cd frontend && npm run dev\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
+    "dev:backend": "uvicorn backend.main:app --reload --port 8000",
+    "dev:all": "concurrently -k \"npm:dev:backend\" \"cd frontend && npm run dev\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "cross-env NODE_ENV=production electron ."
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0",
+  "electron": "^37.3.0",
+  "electron-devtools-installer": "^3.2.0",
+    "wait-on": "^8.0.4"
+  },
+  "dependencies": {
+  "@emotion/react": "^11.14.0",
+  "@emotion/styled": "^11.14.1",
+  "@mui/material": "^7.3.1",
+  "notistack": "^3.0.2",
+  "react-hot-toast": "^2.6.0",
+  "react-icons": "^5.5.0",
+  "react-toastify": "^11.0.5"
+  }
+}
