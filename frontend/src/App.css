@@ -1,14 +1,25 @@
+/* Global reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
+  width: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  overflow-x: hidden; /* prevent horizontal scroll caused by transforms or fixed sidebars */
 }
 
 .main-layout {
   display: flex;
+  width: 100%;
   height: 100vh;
   font-family: Inter, system-ui, Arial;
   background: #f5f7fa;
+  overflow-x: hidden; /* extra safety: keep layout from expanding horizontally */
 }
 .side-nav {
   width: 240px;
@@ -23,10 +34,13 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin: 0; /* Ensure no margin */
+  min-width: 0; /* allow flex child to shrink and prevent overflow */
 }
 
 #root {
   width: 100%;
+  height: 100%; /* Ensure it fills the height */
   margin: 0;
   padding: 0;
 }
@@ -61,6 +75,13 @@ body {
 
 .card {
   padding: 2em;
+}
+
+/* Make images and SVGs responsive to avoid unexpected overflow */
+img,
+svg {
+  max-width: 100%;
+  height: auto;
 }
 
 .read-the-docs {
@@ -112,6 +133,7 @@ body {
 
   main {
     padding: 16px;
+  min-width: 0; /* allow content to wrap inside flex container */
   }
 }
 
