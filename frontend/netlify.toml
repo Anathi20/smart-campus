@@ -1,0 +1,17 @@
+[build]
+  # Netlify will run this to build the Vite app and publish the generated `dist` folder
+  publish = "dist"
+  command = "npm run build"
+
+#[context.production.environment]
+#  # Uncomment and replace the placeholder if you want to set an env var here.
+#  # Do NOT commit secrets to the repo. Set real values in the Netlify UI instead.
+#  # VITE_API_URL = "https://YOUR_BACKEND_URL"
+
+[[redirects]]
+  # Proxy all API requests to your backend. Replace the placeholder with your real backend URL
+  # or set a deploy environment variable and update this file before deploy.
+  from = "/api/*"
+  to = "https://YOUR_BACKEND_URL/:splat"
+  status = 200
+  force = true

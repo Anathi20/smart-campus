@@ -13,15 +13,24 @@ from .db import engine, DATABASE_URL
 app = FastAPI()
 
 # Allow requests from Vite dev server and Electron
-origins = [
+# Allow requests from Vite dev server, Netlify, and other origins.
+# You can override allowed origins using the CORS_ORIGINS env var as a
+# comma-separated list.
+default_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "capacitor://localhost",  # harmless here; future packaging
+    "capacitor://localhost",
     "http://localhost",
 ]
+env_origins = os.environ.get("CORS_ORIGINS")
+if env_origins:
+    allow_origins = [o.strip() for o in env_origins.split(",") if o.strip()]
+else:
+    allow_origins = default_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=allow_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -35,7 +44,9 @@ def on_startup():
     init_db()
 
     # Seed sample data if empty
-    with Session(init_db.__globals__['engine']) as session:
+    # Use the engine imported from db.py to create a session.
+    from .db import engine
+    with Session(engine) as session:
         room_count = session.exec(select(models.Room)).all()
         if not room_count:
             sample_rooms = [
